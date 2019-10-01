@@ -35,7 +35,7 @@ var model = {
 				ship.hits[index] = "hit"; // добавляем отметку в масив попаданий
 				view.displayHit(guess);				//Оповещаем представление о том что в клетке guess следует вывести маркер попадания
 				view.displayMessage("HIT!");
-				if (this.isSunk(ship)) { //мы добавим проверку здесь после того как будем точно знать что выстрел попал в корабль
+				if (this.isSunk(ship)) { //добавим проверку здесь после того как будем точно знать что выстрел попал в корабль
 					view.displayMessage("You sank my battleship!")
 					this.shipsSunk++;
 				}
@@ -59,15 +59,15 @@ var model = {
 
 
 var controller = {
-	guesses: 0,
+	guesses: 0, //иницифлизация объекта
 
 	processGuess: function(guess) {
 		var location = parseGuess(guess);
 		if (location){ //если метод не возвращает null значит был получен действительный объект location
-			this.guesses++;
+			this.guesses++;// шоб зробити подсчет выстрелов при неправильном вводе то используем другой цикл
 			var hit = model.fire(location);// комбинация строки и столбца передаеться методу fire
 			if (hit && model.shipsSunk === model.numShips) { 
-			//если выстрел попал в цель а количество потопленных кораблей равно количеству кораблей в игре, выводиться сообщение что все корабли потоплены
+			//если потопленных кораблей равно количеству кораблей в игре, выводиться сообщение что все корабли потоплены
 				view.displayMessage("You sank all my battleships, in " 
 					+ this.guesses + " guesses");
 // выводим общее количество выстрелов, которое потребовалось игроку для того, чтобы потопить корабли
@@ -79,11 +79,11 @@ var controller = {
 function parseGuess(guess) { 
 		var alphabet = ["A", "B", "C", "D", "E", "F", "G"];
 
-	if (guess === null || guess.length !== 2) { //проверяем дфнные на null и убеждаемся что в строке два символа
+	if (guess === null || guess.length !== 2) { //проверка на null и на два символа
 		alert("Oops, please enter a letter and a number on the board.");
 	} else {
-		firstChar = guess.charAt(0);			//извлекаем первый символ строки
-		var row = alphabet.indexOf(firstChar); // получаем цифру в диапазоне от 0 до 6 соответствующую букве
+		firstChar = guess.charAt(0);			//первый символ строки
+		var row = alphabet.indexOf(firstChar); // получаем цифру в диапазоне от 0 до 6 соответствующую букве в масиве
 		var column = guess.charAt(1);  //получение второго символа представляющего столбец игрового поля
 	
 		if (isNaN(row) || isNaN(column)) {
